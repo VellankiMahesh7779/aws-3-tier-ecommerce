@@ -255,3 +255,331 @@ footer {
     padding: 10px;
     font-size: 16px;
 }
+
+/* =========================
+   CART PAGE
+========================= */
+
+.cart-section {
+    padding: 40px;
+    min-height: 70vh;
+}
+
+.cart-section h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px;
+    margin-bottom: 15px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    background: #fff;
+}
+
+
+.cart-item-details h3 {
+    margin-bottom: 10px;
+}
+
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin: 15px 0;
+}
+
+
+.quantity-control button {
+    width: 35px;
+    height: 35px;
+
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+
+.quantity-control span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+.remove-btn {
+    background: #dc3545;
+    color: white;
+
+    border: none;
+
+    padding: 10px 15px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+
+.cart-summary {
+    margin-top: 30px;
+
+    padding: 25px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    text-align: right;
+}
+
+
+.cart-summary h2 {
+    margin-bottom: 15px;
+}
+
+
+.cart-summary p {
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+
+#checkout-btn {
+    margin-top: 15px;
+
+    padding: 12px 20px;
+
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+
+.empty-cart {
+    text-align: center;
+    padding: 50px;
+}
+
+
+.empty-cart a {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    padding: 12px 20px;
+
+    text-decoration: none;
+
+    border-radius: 5px;
+}
+
+/* =========================
+   AUTHENTICATION
+========================= */
+
+.auth-section {
+    min-height: 70vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 40px;
+}
+
+
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+
+    padding: 30px;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    background: #fff;
+}
+
+
+.auth-container h1 {
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.auth-container label {
+    margin-bottom: 5px;
+
+    font-weight: bold;
+}
+
+
+.auth-container input {
+    padding: 12px;
+
+    margin-bottom: 18px;
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    font-size: 15px;
+}
+
+
+.auth-container button {
+    padding: 12px;
+
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+
+.auth-container p {
+    text-align: center;
+
+    margin-top: 20px;
+}
+
+
+.auth-container a {
+    text-decoration: none;
+}
+
+/* =========================
+   ORDERS PAGE
+========================= */
+
+.orders-section {
+    min-height: 70vh;
+
+    padding: 40px;
+}
+
+
+.orders-section h1 {
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+
+.order-card {
+    max-width: 900px;
+
+    margin: 0 auto 20px;
+
+    padding: 20px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    background: #fff;
+}
+
+
+.order-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #ddd;
+}
+
+
+.order-header p {
+    margin-top: 5px;
+}
+
+
+.order-status {
+    padding: 6px 12px;
+
+    border-radius: 5px;
+
+    font-weight: bold;
+}
+
+
+.order-products {
+    padding: 15px 0;
+}
+
+
+.order-product {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #eee;
+}
+
+
+.order-footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-top: 15px;
+}
+
+
+.order-footer button {
+    padding: 10px 15px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+
+.empty-orders {
+    text-align: center;
+
+    padding: 50px;
+}
+
+
+.empty-orders a {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    padding: 12px 20px;
+
+    text-decoration: none;
+
+    border-radius: 5px;
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shopping Cart - Tutu Store</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Tutu Store
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+
+    </nav>
+
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+
+        <h1>Shopping Cart</h1>
+
+        <!-- Cart Items -->
+        <div id="cart-container"></div>
+
+
+        <!-- Cart Summary -->
+        <div class="cart-summary">
+
+            <h2>Cart Summary</h2>
+
+            <p>
+                Subtotal:
+                ₹<span id="cart-subtotal">0</span>
+            </p>
+
+            <p>
+                Total:
+                ₹<span id="cart-total">0</span>
+            </p>
+
+            <button id="checkout-btn">
+                Proceed to Checkout
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 Tutu Store | 3-Tier AWS E-Commerce Project
+        </p>
+
+    </footer>
+
+
+    <script src="js/cart.js"></script>
+
+</body>
+</html>
