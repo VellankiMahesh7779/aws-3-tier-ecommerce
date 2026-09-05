@@ -9,17 +9,7 @@ from routes.orders import orders_bp
 
 app = Flask(__name__)
 
-CORS(
-    app,
-    resources={
-        r"/api/*": {
-            "origins": [
-                "http://localhost:8000",
-                "http://127.0.0.1:8000"
-            ]
-        }
-    }
-)
+CORS(app)
 
 
 app.register_blueprint(products_bp)

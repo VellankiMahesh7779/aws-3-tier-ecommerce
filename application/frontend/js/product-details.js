@@ -1,5 +1,5 @@
 // Flask API
-const API_URL = "http://localhost:5000/api/products";
+const API_URL = `http://${window.location.hostname}:5000/api`;
 
 
 // Get product ID from URL
