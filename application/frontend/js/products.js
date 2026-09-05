@@ -1,12 +1,10 @@
 const API_URL = `http://${window.location.hostname}:5000/api`;
 
-
 const productsContainer =
     document.getElementById("productContainer");
 
 const searchInput =
     document.getElementById("searchInput");
-
 
 let products = [];
 
@@ -20,7 +18,7 @@ async function loadProducts() {
     try {
 
         const response =
-            await fetch(API_URL);
+            await fetch(`${API_URL}/products`);
 
 
         if (!response.ok) {
