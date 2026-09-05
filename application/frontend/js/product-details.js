@@ -3,9 +3,11 @@ const API_URL = `http://${window.location.hostname}:5000/api`;
 
 
 // Get product ID from URL
-const urlParams = new URLSearchParams(window.location.search);
+const urlParams =
+    new URLSearchParams(window.location.search);
 
-const productId = Number(urlParams.get("id"));
+const productId =
+    Number(urlParams.get("id"));
 
 
 // Get product details container
@@ -17,7 +19,10 @@ const productDetails =
 let product = null;
 
 
-// Load product from backend
+// ========================================
+// LOAD PRODUCT FROM FLASK API
+// ========================================
+
 async function loadProduct() {
 
     try {
@@ -33,7 +38,9 @@ async function loadProduct() {
 
         // Call Flask API
         const response =
-            await fetch(`${API_URL}/${productId}`);
+            await fetch(
+                `${API_URL}/products/${productId}`
+            );
 
 
         // Product not found
@@ -55,11 +62,13 @@ async function loadProduct() {
 
 
         // Convert response to JSON
-        product = await response.json();
+        product =
+            await response.json();
 
 
         // Display product
         displayProduct(product);
+
 
     } catch (error) {
 
@@ -68,7 +77,9 @@ async function loadProduct() {
             error
         );
 
+
         productDetails.innerHTML = `
+
             <h2>
                 Unable to load product
             </h2>
@@ -79,21 +90,34 @@ async function loadProduct() {
             >
                 Back to Products
             </a>
+
         `;
+
     }
+
 }
 
 
-// Display product
+// ========================================
+// DISPLAY PRODUCT
+// ========================================
+
 function displayProduct(product) {
 
     productDetails.innerHTML = `
 
         <div class="product-detail-card">
 
+
             <div class="product-detail-image">
-                ${product.name}
+
+                <img
+                    src="images/${product.image}"
+                    alt="${product.name}"
+                >
+
             </div>
+
 
             <div class="product-detail-info">
 
@@ -101,9 +125,11 @@ function displayProduct(product) {
                     ${product.name}
                 </h1>
 
+
                 <p>
                     ${product.description}
                 </p>
+
 
                 <h2>
                     ₹${Number(product.price).toLocaleString("en-IN")}
@@ -115,6 +141,7 @@ function displayProduct(product) {
                     <label for="quantity">
                         Quantity:
                     </label>
+
 
                     <input
                         type="number"
@@ -147,10 +174,14 @@ function displayProduct(product) {
         </div>
 
     `;
+
 }
 
 
-// Product not found
+// ========================================
+// PRODUCT NOT FOUND
+// ========================================
+
 function showProductNotFound() {
 
     productDetails.innerHTML = `
@@ -158,6 +189,7 @@ function showProductNotFound() {
         <h2>
             Product not found
         </h2>
+
 
         <a
             href="products.html"
@@ -167,31 +199,45 @@ function showProductNotFound() {
         </a>
 
     `;
+
 }
 
 
-// Add product to cart
+// ========================================
+// ADD PRODUCT TO CART
+// ========================================
+
 function addToCart() {
 
     // Make sure product is loaded
     if (!product) {
 
-        alert("Product is not available.");
+        alert(
+            "Product is not available."
+        );
 
         return;
     }
 
 
+    // Get quantity
     const quantity =
         Number(
-            document.getElementById("quantity").value
+            document.getElementById(
+                "quantity"
+            ).value
         );
 
 
-    if (quantity < 1) {
+    // Validate quantity
+    if (
+        !Number.isInteger(quantity) ||
+        quantity < 1 ||
+        quantity > 10
+    ) {
 
         alert(
-            "Please select a valid quantity."
+            "Please select a quantity between 1 and 10."
         );
 
         return;
@@ -208,7 +254,8 @@ function addToCart() {
     // Check if product already exists
     const existingProduct =
         cart.find(
-            item => item.id === product.id
+            item =>
+                item.id === product.id
         );
 
 
@@ -240,11 +287,16 @@ function addToCart() {
     );
 
 
+    // Confirmation
     alert(
         `${product.name} added to cart!`
     );
+
 }
 
 
-// Load product when page opens
+// ========================================
+// START APPLICATION
+// ========================================
+
 loadProduct();
