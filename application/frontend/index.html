@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,27 +10,55 @@
     <title>Tutu Store</title>
 
     <link rel="stylesheet" href="css/style.css">
+
 </head>
+
 
 <body>
 
+
     <!-- Navigation Bar -->
     <header>
+
         <nav class="navbar">
 
             <div class="logo">
                 Tutu Store
             </div>
 
+
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="cart.html">Cart</a></li>
-                <li><a href="login.html">Login</a></li>
+
+                <li>
+                    <a href="index.html">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="products.html">
+                        Products
+                    </a>
+                </li>
+
+                <li>
+                    <a href="cart.html">
+                        Cart
+                    </a>
+                </li>
+
+                <li>
+                    <a href="login.html">
+                        Login
+                    </a>
+                </li>
+
             </ul>
 
         </nav>
+
     </header>
+
 
 
     <!-- Hero Section -->
@@ -36,7 +66,9 @@
 
         <div class="hero-content">
 
-            <h1>Welcome to Tutu Store</h1>
+            <h1>
+                Welcome to Tutu Store
+            </h1>
 
             <p>
                 Your one-stop online store for quality products.
@@ -51,75 +83,27 @@
     </section>
 
 
+
     <!-- Featured Products -->
     <section class="featured">
 
-        <h2>Featured Products</h2>
-
-        <div class="product-container">
-
-            <!-- Product 1 -->
-            <div class="product-card">
-
-                <div class="product-image">
-                    Laptop
-                </div>
-
-                <h3>Premium Laptop</h3>
-
-                <p>High-performance laptop for work and entertainment.</p>
-
-                <h4>₹50,000</h4>
-
-                <a href="product-details.html" class="btn">
-                    View Product
-                </a>
-
-            </div>
+        <h2>
+            Featured Products
+        </h2>
 
 
-            <!-- Product 2 -->
-            <div class="product-card">
-
-                <div class="product-image">
-                    Smartphone
-                </div>
-
-                <h3>Smartphone</h3>
-
-                <p>Powerful smartphone with excellent performance.</p>
-
-                <h4>₹25,000</h4>
-
-                <a href="product-details.html" class="btn">
-                    View Product
-                </a>
-
-            </div>
-
-
-            <!-- Product 3 -->
-            <div class="product-card">
-
-                <div class="product-image">
-                    Headphones
-                </div>
-
-                <h3>Wireless Headphones</h3>
-
-                <p>Enjoy high-quality sound with wireless headphones.</p>
-
-                <h4>₹3,000</h4>
-
-                <a href="product-details.html" class="btn">
-                    View Product
-                </a>
-
-            </div>
+        <!--
+            Products will be loaded dynamically
+            from Flask API using main.js
+        -->
+        <div
+            class="product-container"
+            id="featured-products">
 
         </div>
 
     </section>
+
 
 
     <!-- Footer -->
@@ -132,7 +116,11 @@
     </footer>
 
 
+
+    <!-- Main JavaScript -->
     <script src="js/main.js"></script>
 
+
 </body>
+
 </html>

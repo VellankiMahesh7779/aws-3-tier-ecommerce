@@ -1,43 +1,5 @@
-// =========================
-// SAMPLE ORDERS
-// =========================
-
-const orders = [
-    {
-        id: 1001,
-        date: "2026-09-01",
-        status: "Delivered",
-        total: 53000,
-
-        products: [
-            {
-                name: "Premium Laptop",
-                quantity: 1,
-                price: 50000
-            },
-            {
-                name: "Wireless Mouse",
-                quantity: 2,
-                price: 1500
-            }
-        ]
-    },
-
-    {
-        id: 1002,
-        date: "2026-09-03",
-        status: "Processing",
-        total: 3000,
-
-        products: [
-            {
-                name: "Wireless Headphones",
-                quantity: 1,
-                price: 3000
-            }
-        ]
-    }
-];
+// Flask API
+const API_URL = "http://localhost:5000/api";
 
 
 // Get orders container
@@ -45,19 +7,123 @@ const ordersContainer =
     document.getElementById("orders-container");
 
 
-// Display orders
+// Store orders loaded from backend
+let orders = [];
+
+
+// ========================================
+// LOAD ORDERS FROM BACKEND
+// ========================================
+
+async function loadOrders() {
+
+    // Get logged-in user
+    const user =
+        JSON.parse(
+            localStorage.getItem("user")
+        );
+
+
+    // Check login
+    if (!user) {
+
+        ordersContainer.innerHTML = `
+
+            <div class="empty-orders">
+
+                <h2>Please Login</h2>
+
+                <p>
+                    Please login to view your orders.
+                </p>
+
+                <a href="login.html">
+                    Login
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    try {
+
+        // Get orders from Flask
+        const response =
+            await fetch(
+                `${API_URL}/orders/${user.id}`
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load orders"
+            );
+
+        }
+
+
+        // Convert response to JSON
+        orders =
+            await response.json();
+
+
+        // Display orders
+        displayOrders();
+
+
+    } catch (error) {
+
+        console.error(
+            "Error loading orders:",
+            error
+        );
+
+
+        ordersContainer.innerHTML = `
+
+            <div class="empty-orders">
+
+                <h2>
+                    Unable to load orders
+                </h2>
+
+                <p>
+                    Please try again later.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ========================================
+// DISPLAY ORDERS
+// ========================================
+
 function displayOrders() {
 
     ordersContainer.innerHTML = "";
 
 
-    // Check if there are no orders
+    // No orders
     if (orders.length === 0) {
 
         ordersContainer.innerHTML = `
+
             <div class="empty-orders">
 
-                <h2>No Orders Found</h2>
+                <h2>
+                    No Orders Found
+                </h2>
 
                 <p>
                     You have not placed any orders yet.
@@ -68,6 +134,7 @@ function displayOrders() {
                 </a>
 
             </div>
+
         `;
 
         return;
@@ -80,31 +147,47 @@ function displayOrders() {
         const orderElement =
             document.createElement("div");
 
-        orderElement.classList.add("order-card");
+
+        orderElement.classList.add(
+            "order-card"
+        );
+
+
+        // Format date
+        const orderDate =
+            new Date(order.created_at)
+                .toLocaleDateString("en-IN");
 
 
         // Product HTML
         let productsHTML = "";
 
 
-        order.products.forEach(product => {
+        order.items.forEach(item => {
+
+            const itemTotal =
+                Number(item.price) *
+                Number(item.quantity);
+
 
             productsHTML += `
+
                 <div class="order-product">
 
                     <span>
-                        ${product.name}
+                        ${item.name}
                     </span>
 
                     <span>
-                        Qty: ${product.quantity}
+                        Qty: ${item.quantity}
                     </span>
 
                     <span>
-                        ₹${product.price * product.quantity}
+                        ₹${itemTotal.toLocaleString("en-IN")}
                     </span>
 
                 </div>
+
             `;
 
         });
@@ -116,13 +199,15 @@ function displayOrders() {
             <div class="order-header">
 
                 <div>
+
                     <strong>
                         Order #${order.id}
                     </strong>
 
                     <p>
-                        Date: ${order.date}
+                        Date: ${orderDate}
                     </p>
+
                 </div>
 
 
@@ -143,8 +228,11 @@ function displayOrders() {
             <div class="order-footer">
 
                 <strong>
-                    Total: ₹${order.total}
+                    Total:
+                    ₹${Number(order.total_amount)
+                        .toLocaleString("en-IN")}
                 </strong>
+
 
                 <button
                     onclick="viewOrder(${order.id})">
@@ -158,24 +246,66 @@ function displayOrders() {
         `;
 
 
-        ordersContainer.appendChild(orderElement);
+        ordersContainer.appendChild(
+            orderElement
+        );
 
     });
 
 }
 
 
-// View order
+// ========================================
+// VIEW ORDER
+// ========================================
+
 function viewOrder(orderId) {
 
-    alert(
-        "Order details for Order #" +
-        orderId +
-        " will be connected to the backend on Day 3."
-    );
+    const order =
+        orders.find(
+            order => order.id === orderId
+        );
+
+
+    if (!order) {
+
+        alert("Order not found.");
+
+        return;
+    }
+
+
+    let details =
+        `Order #${order.id}\n\n`;
+
+
+    details +=
+        `Status: ${order.status}\n`;
+
+
+    details +=
+        `Total: ₹${Number(order.total_amount)
+            .toLocaleString("en-IN")}\n\n`;
+
+
+    details += "Products:\n";
+
+
+    order.items.forEach(item => {
+
+        details +=
+            `${item.name} - Qty: ${item.quantity}\n`;
+
+    });
+
+
+    alert(details);
 
 }
 
 
-// Load orders
-displayOrders();
+// ========================================
+// START
+// ========================================
+
+loadOrders();

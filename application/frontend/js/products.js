@@ -1,148 +1,178 @@
-// Product data
-const products = [
-
-    {
-        id: 1,
-        name: "Premium Laptop",
-        price: 50000,
-        description: "High-performance laptop for work and entertainment."
-    },
-
-    {
-        id: 2,
-        name: "Smartphone",
-        price: 25000,
-        description: "Powerful smartphone with excellent performance."
-    },
-
-    {
-        id: 3,
-        name: "Wireless Headphones",
-        price: 3000,
-        description: "Enjoy high-quality sound with wireless headphones."
-    },
-
-    {
-        id: 4,
-        name: "Smart Watch",
-        price: 5000,
-        description: "Track your fitness and stay connected."
-    },
-
-    {
-        id: 5,
-        name: "Mechanical Keyboard",
-        price: 4500,
-        description: "Mechanical keyboard for developers and gamers."
-    },
-
-    {
-        id: 6,
-        name: "Wireless Mouse",
-        price: 1500,
-        description: "Comfortable wireless mouse for everyday use."
-    }
-
-];
+const API_URL = "http://localhost:5000/api/products";
 
 
-// Get product container
-const productContainer =
+const productsContainer =
     document.getElementById("productContainer");
 
+const searchInput =
+    document.getElementById("searchInput");
 
-// Display products
+
+let products = [];
+
+
+// ========================================
+// LOAD PRODUCTS FROM FLASK API
+// ========================================
+
+async function loadProducts() {
+
+    try {
+
+        const response =
+            await fetch(API_URL);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load products"
+            );
+
+        }
+
+
+        products =
+            await response.json();
+
+
+        displayProducts(products);
+
+
+    } catch (error) {
+
+        console.error(
+            "Error loading products:",
+            error
+        );
+
+
+        productsContainer.innerHTML = `
+
+            <p>
+                Unable to load products.
+            </p>
+
+        `;
+
+    }
+
+}
+
+
+// ========================================
+// DISPLAY PRODUCTS
+// ========================================
+
 function displayProducts(productList) {
 
-    productContainer.innerHTML = "";
+    productsContainer.innerHTML = "";
+
+
+    if (productList.length === 0) {
+
+        productsContainer.innerHTML = `
+
+            <p>
+                No products found.
+            </p>
+
+        `;
+
+        return;
+
+    }
+
 
     productList.forEach(product => {
 
-        const productCard = document.createElement("div");
+        const productCard =
+            document.createElement("div");
 
-        productCard.className = "product-card";
+
+        productCard.classList.add(
+            "product-card"
+        );
+
 
         productCard.innerHTML = `
 
             <div class="product-image">
-                ${product.name}
+
+                <img
+                    src="images/${product.image}"
+                    alt="${product.name}"
+                >
+
             </div>
+
 
             <h3>
                 ${product.name}
             </h3>
 
+
             <p>
                 ${product.description}
             </p>
 
+
             <h4>
-                ₹${product.price.toLocaleString("en-IN")}
+                ₹${Number(product.price).toLocaleString("en-IN")}
             </h4>
 
-            <button
+
+            <a
+                href="product-details.html?id=${product.id}"
                 class="btn"
-                onclick="viewProduct(${product.id})"
             >
                 View Product
-            </button>
+            </a>
 
         `;
 
-        productContainer.appendChild(productCard);
+
+        productsContainer.appendChild(
+            productCard
+        );
 
     });
 
 }
 
 
-// View product
-function viewProduct(productId) {
+// ========================================
+// SEARCH PRODUCTS
+// ========================================
 
-    window.location.href =
-        `product-details.html?id=${productId}`;
+searchInput.addEventListener(
+    "input",
+    function () {
 
-}
+        const searchText =
+            searchInput.value.toLowerCase();
 
 
-// Search products
-function searchProducts() {
+        const filteredProducts =
+            products.filter(product =>
 
-    const searchText =
-        document
-            .getElementById("searchInput")
-            .value
-            .toLowerCase();
+                product.name
+                    .toLowerCase()
+                    .includes(searchText)
 
-    const filteredProducts =
-        products.filter(product =>
-            product.name
-                .toLowerCase()
-                .includes(searchText)
+            );
+
+
+        displayProducts(
+            filteredProducts
         );
 
-    displayProducts(filteredProducts);
-
-}
-
-
-// Search button
-document
-    .getElementById("searchButton")
-    .addEventListener(
-        "click",
-        searchProducts
-    );
+    }
+);
 
 
-// Search while typing
-document
-    .getElementById("searchInput")
-    .addEventListener(
-        "input",
-        searchProducts
-    );
+// ========================================
+// START APPLICATION
+// ========================================
 
-
-// Initial product display
-displayProducts(products);
+loadProducts();

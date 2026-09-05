@@ -1,49 +1,5 @@
-// Product data
-const products = [
-
-    {
-        id: 1,
-        name: "Premium Laptop",
-        price: 50000,
-        description: "High-performance laptop for work and entertainment."
-    },
-
-    {
-        id: 2,
-        name: "Smartphone",
-        price: 25000,
-        description: "Powerful smartphone with excellent performance."
-    },
-
-    {
-        id: 3,
-        name: "Wireless Headphones",
-        price: 3000,
-        description: "Enjoy high-quality sound with wireless headphones."
-    },
-
-    {
-        id: 4,
-        name: "Smart Watch",
-        price: 5000,
-        description: "Track your fitness and stay connected."
-    },
-
-    {
-        id: 5,
-        name: "Mechanical Keyboard",
-        price: 4500,
-        description: "Mechanical keyboard for developers and gamers."
-    },
-
-    {
-        id: 6,
-        name: "Wireless Mouse",
-        price: 1500,
-        description: "Comfortable wireless mouse for everyday use."
-    }
-
-];
+// Flask API
+const API_URL = "http://localhost:5000/api/products";
 
 
 // Get product ID from URL
@@ -52,29 +8,84 @@ const urlParams = new URLSearchParams(window.location.search);
 const productId = Number(urlParams.get("id"));
 
 
-// Find product
-const product = products.find(
-    product => product.id === productId
-);
-
-
-// Get container
+// Get product details container
 const productDetails =
     document.getElementById("productDetails");
 
 
-// Check if product exists
-if (!product) {
+// Store the product loaded from backend
+let product = null;
 
-    productDetails.innerHTML = `
-        <h2>Product not found</h2>
 
-        <a href="products.html" class="btn">
-            Back to Products
-        </a>
-    `;
+// Load product from backend
+async function loadProduct() {
 
-} else {
+    try {
+
+        // Check if product ID exists
+        if (!productId) {
+
+            showProductNotFound();
+
+            return;
+        }
+
+
+        // Call Flask API
+        const response =
+            await fetch(`${API_URL}/${productId}`);
+
+
+        // Product not found
+        if (response.status === 404) {
+
+            showProductNotFound();
+
+            return;
+        }
+
+
+        // Other API error
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load product"
+            );
+        }
+
+
+        // Convert response to JSON
+        product = await response.json();
+
+
+        // Display product
+        displayProduct(product);
+
+    } catch (error) {
+
+        console.error(
+            "Error loading product:",
+            error
+        );
+
+        productDetails.innerHTML = `
+            <h2>
+                Unable to load product
+            </h2>
+
+            <a
+                href="products.html"
+                class="btn"
+            >
+                Back to Products
+            </a>
+        `;
+    }
+}
+
+
+// Display product
+function displayProduct(product) {
 
     productDetails.innerHTML = `
 
@@ -95,7 +106,7 @@ if (!product) {
                 </p>
 
                 <h2>
-                    ₹${product.price.toLocaleString("en-IN")}
+                    ₹${Number(product.price).toLocaleString("en-IN")}
                 </h2>
 
 
@@ -139,17 +150,49 @@ if (!product) {
 }
 
 
+// Product not found
+function showProductNotFound() {
+
+    productDetails.innerHTML = `
+
+        <h2>
+            Product not found
+        </h2>
+
+        <a
+            href="products.html"
+            class="btn"
+        >
+            Back to Products
+        </a>
+
+    `;
+}
+
+
 // Add product to cart
 function addToCart() {
+
+    // Make sure product is loaded
+    if (!product) {
+
+        alert("Product is not available.");
+
+        return;
+    }
+
 
     const quantity =
         Number(
             document.getElementById("quantity").value
         );
 
+
     if (quantity < 1) {
 
-        alert("Please select a valid quantity.");
+        alert(
+            "Please select a valid quantity."
+        );
 
         return;
     }
@@ -181,7 +224,7 @@ function addToCart() {
 
             name: product.name,
 
-            price: product.price,
+            price: Number(product.price),
 
             quantity: quantity
 
@@ -200,5 +243,8 @@ function addToCart() {
     alert(
         `${product.name} added to cart!`
     );
-
 }
+
+
+// Load product when page opens
+loadProduct();
